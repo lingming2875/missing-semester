@@ -133,7 +133,7 @@
 普通→ 插入：`i`
 插入→ 普通：`Esc`
 
-3.Vim完整基础流程
+- 3.Vim完整基础流程
 
 |按键|作用|
 |---|---|
@@ -178,7 +178,9 @@
   `ssh -T git@github.com`
 
 4. **Git常用命令**
-获取、查看状态
+
+- 获取、查看状态
+
 |命令|作用|
 |---|---|
 |`git clone <仓库地址>`|下载仓库完整代码和历史|
@@ -186,7 +188,8 @@
 |`git diff`|查看未暂存的改动|
 |`git log --oneline`|简短查看提交历史|
 
-分支、提交、推送
+- 分支、提交、推送
+
 |命令|作用|
 |---|---|
 |`git switch -c feature/hello`|创建并切换新功能分支|
@@ -198,17 +201,19 @@
 
 
 5. **分支理念**
- main主分支：保持代码稳定可用
- 新建feature/xxx功能分支做开发，修改评审完成后合并进main
- 分支让多份开发互不干扰，每一次commit记录一个版本快照。
- 团队Fork协作工作流
- 在GitHub上Fork团队仓库，生成属于你个人的副本
- git clone把你的Fork仓库下载到本地电脑
- 在本地新建功能分支，修改代码
- git add → git commit → git push推送到你自己的Fork
- GitHub网页发起 Pull Request(PR) 请求合并到原团队仓库
- 团队评审Review，通过后Merge合并代码
- 如果拥有仓库直接推送权限，可以不用Fork，直接在原仓库建分支
+
+-  main主分支：保持代码稳定可用
+   新建feature/xxx功能分支做开发，修改评审完成后合并进main
+   分支让多份开发互不干扰，每一次commit记录一个版本快照
+
+ - 团队Fork协作工作流
+   在GitHub上Fork团队仓库，生成属于你个人的副本
+   git clone把你的Fork仓库下载到本地电脑
+   在本地新建功能分支，修改代码
+   git add → git commit → git push推送到你自己的Fork
+   GitHub网页发起 Pull Request(PR) 请求合并到原团队仓库
+   团队评审Review，通过后Merge合并代码
+   如果拥有仓库直接推送权限，可以不用Fork，直接在原仓库建分支
 
 ## 四 完整技术链路回顾
 - `Linux` :   搭建开发环境
