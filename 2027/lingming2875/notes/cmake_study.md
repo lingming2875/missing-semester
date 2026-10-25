@@ -121,6 +121,37 @@ test_pkg/
 └── launch/          # Launch 启动文件
 ```
 
+
+## 补充--Docker的ROS_Noetic容器中完成talker-listener话题通信实验---踩坑与要点总结
+
+### 流程
+1. docker start ros_noetic --> docker exec -it ros_noetic bash
+2. source /opt/ros/noetic/setup.bash
+3. mkdir -p ~/catkin_ws/src --> cd ~/catkin_ws/src --> catkin_init_workspacecd ~/catkin_ws --> catkin build
+4. cd ~/catkin_ws/src -->  catkin_create_pkg test_pkg roscpp rospy std_msgs
+5. cd ~/catkin_ws/src/test_pkg/src --> nano talker.cpp
+6. nano ~/catkin_ws/src/test_pkg/CMakeLists.txt
+7. 新开一个窗口，剩下同理
+
+### 遇到的问题
+1. 在同一个终端先后启动 talker、listener，节点无法通信（节点需要同时在线）
+2. 接收端出现 `????`，是终端中文编码乱码，消息本身传输正常
+3. 重复启动 talker，触发节点重名警告，旧节点被自动关闭
+4. 在容器内部执行 `docker stop`，提示命令不存在（docker 命令属于宿主机）
+
+### 核心要点
+- 通信三组件分开三个终端同时运行：`roscore`（ROS主节点）、talker（发布者）、listener（订阅者）
+- ROS **节点名称必须唯一**
+- 容器只负责编译、运行 ROS 程序；容器启停、查看等 docker 命令，只能在宿主机执行
+- `docker stop` 暂停容器后，工作空间代码会保留，不会丢失
+
+### 收尾流程
+`Ctrl + C` 依次停止 ROS 节点 → `exit` 退出容器终端 → 回到宿主机按需执行 `docker stop ros_noetic` 暂停容器。
+
+
+
+
+
 ## 六、大语言模型基础
 
 大语言模型（Large Language Model，LLM）是一种具有大量参数的人工智能模型。
