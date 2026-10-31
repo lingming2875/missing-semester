@@ -190,8 +190,8 @@ Skill（技能）是一组可复用的任务指令及配套资源，用于指导
 Agent 可以在需要时加载相应 Skill，并按照其中定义的流程工作。
 
 ### 3. AGENTS.md
-和skill配套使用
-`AGENTS.md` 可以理解为“写给 AI 编程 Agent 的项目说明书”。
+- 和skill配套使用
+- `AGENTS.md` 可以理解为“写给 AI 编程 Agent 的项目说明书”。
 
 它通常用于说明：
 
@@ -236,26 +236,26 @@ Agent 可以在需要时加载相应 Skill，并按照其中定义的流程工�
 
 使用 AI 时，应当对团队和自己负责：
 
-- 不盲目接受 AI 生成的代码或结论；
-- 对关键内容进行验证和测试；
-- 理解自己提交或使用的代码；
-- 保留独立思考，不用 AI 代替真实学习过程。
+- 不盲目接受 AI 生成的代码
+- 对关键内容进行验证和测试
+- 理解自己提交或使用的代码
+- 保留独立思考，不用 AI 代替真实学习过程
 
 ## 十一、课后任务
 
-1. 阅读补充资料：
+1. 补充资料：
    - [Catkin Tutorials](https://wiki.ros.org/catkin/Tutorials)
    - [知乎补充资料](https://zhuanlan.zhihu.com/p/476697014)
    - [CMake 基础教程](https://www.runoob.com/cmake/cmake-basic.html)
    - [The Emperor Has No Clothes](https://www.mihaileric.com/The-Emperor-Has-No-Clothes/)
-2. 在 `notes` 文件夹中创建 `cmake_study.md`。
-3. 使用规范的 Markdown 语法记录 CMake、Catkin 及补充资料的学习笔记。
-4. 可以记录使用大模型辅助理解工具的交互过程、思路，以及对 AI 辅助学习的思考。
-5. 不应直接让 AI 代写笔记，应保留自己的理解与真实学习过程。
+2. 在 `notes` 文件夹中创建 `cmake_study.md`
+3. 使用规范的 Markdown 语法记录 CMake、Catkin 及补充资料的学习笔记
+4. 可以记录使用大模型辅助理解工具的交互过程、思路，以及对 AI 辅助学习的思考
+5. 不应直接让 AI 代写笔记，应保留自己的理解与真实学习过程
 
 
 
-# 11.1-程序详细编译过程学习笔记
+# 11.1-程序详细编译过程-学习总结与思考(Have understood)
 
 > 资料来源：[程序详细编译过程（预处理、编译、汇编、链接）](https://zhuanlan.zhihu.com/p/476697014)
 
@@ -268,7 +268,7 @@ Agent 可以在需要时加载相应 Skill，并按照其中定义的流程工�
 ```c
 #include <stdio.h>
 
-int main(void)
+int main()
 {
     printf("hello, world\n");
     return 0;
@@ -277,8 +277,10 @@ int main(void)
 
 使用 GCC 编译：
 
-```bash
+```
+bash
 gcc -o hello hello.c
+
 ```
 
 GCC 会自动完成四个阶段：
@@ -315,8 +317,10 @@ hello
 
 只执行预处理：
 
-```bash
+```
+bash
 gcc -E hello.c -o hello.i
+
 ```
 
 预处理后的文件仍然是文本文件，但头文件和宏已经被展开，内容通常比原始源代码多。
@@ -325,43 +329,49 @@ gcc -E hello.c -o hello.i
 
 编译器对预处理后的文件进行：
 
-- 词法分析；
-- 语法分析；
-- 语义分析；
-- 代码优化；
-- 汇编代码生成。
+- 词法分析
+- 语法分析
+- 语义分析
+- 代码优化
+- 汇编代码生成
 
 执行命令：
 
-```bash
+```
+bash
 gcc -S hello.i -o hello.s
+
 ```
 
-生成的 `hello.s` 是汇编语言文件。它仍然是文本文件，但表达方式已经接近底层机器指令。
+生成的 `hello.s` 是汇编语言文件,但仍然是文本文件，但表达方式已经接近底层机器指令
 
 ## 四、汇编阶段
 
 汇编器将汇编代码转换为机器语言，生成可重定位目标文件：
 
-```bash
+```
+bash
 gcc -c hello.s -o hello.o
+
 ```
 
 目标文件已经包含机器代码，但通常不能直接运行，因为：
 
-- 程序可能由多个源文件组成；
-- 当前文件可能调用其他文件中的函数；
-- 程序可能依赖静态库或动态库；
-- 部分符号的最终地址尚未确定。
+- 程序可能由多个源文件组成
+- 当前文件可能调用其他文件中的函数
+- 程序可能依赖静态库或动态库
+- 部分符号的最终地址尚未确定
 
-这些问题需要在链接阶段处理。
+这些问题需要在 **链接**阶段处理
 
 ## 五、链接阶段
 
 链接器以可重定位目标文件和库为输入，生成可加载、可运行的可执行目标文件。
 
-```bash
+```
+bash
 gcc hello.o -o hello
+
 ```
 
 链接的核心作用包括：
@@ -374,7 +384,7 @@ gcc hello.o -o hello
 
 ## 六、可重定位目标文件
 
-文章以 Linux x86-64 系统的 ELF-64 格式为例，介绍了目标文件中的常见节。
+以 Linux x86-64 系统的 ELF-64 格式为例，介绍了目标文件中的常见节
 
 | 节 | 主要内容 |
 |---|---|
@@ -399,53 +409,57 @@ gcc hello.o -o hello
 
 ### 1. 空间和地址分配
 
-链接器扫描输入目标文件，收集各段的长度、属性和位置，并合并相同类型的段。
+链接器扫描输入目标文件，收集各段的长度、属性和位置，并合并相同类型的段
 
-同时，链接器收集符号定义和符号引用，建立全局符号表，为输出文件中的段和符号分配地址。
+同时，链接器收集符号定义和符号引用，建立全局符号表，为输出文件中的段和符号分配地址
 
 ### 2. 符号解析
 
 符号解析的目标是把每个符号引用与对应的符号定义关联起来。
 
-文章介绍了三类符号：
+三类符号：
 
-- 当前模块定义、可被其他模块引用的全局符号；
-- 其他模块定义、被当前模块引用的外部符号；
-- 只在当前模块内部使用的局部符号。
+- 当前模块定义、可被其他模块引用----全局符号；
+- 其他模块定义、被当前模块引用----外部符号；
+- 只在当前模块内部使用----局部符号
 
-如果引用的符号找不到定义，链接器就会报告未定义引用等错误。
+如果引用的符号找不到定义，链接器就会报告未定义引用等错误
 
 ### 3. 重定位
 
-合并段并确定地址后，链接器需要修改目标文件中的相关指令和数据，使其使用正确的运行时地址。
+合并段并确定地址后，链接器需要修改目标文件中的相关指令和数据，使其使用正确的运行时地址
 
 ## 八、动态链接与共享库
 
-动态链接不会在生成可执行文件时把所有共享库代码复制进去，而是在程序加载或运行时完成部分链接工作。
+动态链接不会在生成可执行文件时把所有共享库代码复制进去，而是在程序**加载**或**运行**时完成部分链接工作
 
 创建共享库的示例：
 
-```bash
+```
+bash
 gcc -shared -fpic -o libvector.so addvec.c multvec.c
+
 ```
 
 其中：
 
-- `-shared`：生成共享目标文件；
-- `-fpic`：生成位置无关代码。
+- `-shared`：生成共享目标文件
+- `-fpic`：生成位置无关代码
 
 使用共享库构建程序：
 
-```bash
+```
+bash
 gcc -o prog21 main2.c ./libvector.so
+
 ```
 
 程序加载时，动态链接器会：
 
-1. 将所需共享库的代码和数据重定位到内存中。
-2. 修正程序对这些库中函数和数据的引用。
-3. 完成必要的运行时链接。
-4. 将控制权交给应用程序。
+1. 将所需共享库的代码和数据重定位到内存中
+2. 修正程序对这些库中函数和数据的引用
+3. 完成必要的运行时链接
+4. 将控制权交给应用程序
 
 ## 九、静态链接与动态链接对比
 
@@ -460,20 +474,73 @@ gcc -o prog21 main2.c ./libvector.so
 
 ## 十、总结
 
-预处理、编译、汇编和链接并不是彼此孤立的步骤，而是共同完成从高级语言到可执行程序的转换。
+预处理、编译、汇编和链接并不是彼此孤立的步骤，而是共同完成从高级语言到可执行程序的转换
 
 其中：
 
-- 预处理负责处理源代码文本；
-- 编译负责分析并生成汇编代码；
-- 汇编负责生成目标文件；
-- 链接负责解决模块之间的引用和地址问题。
+- 预处理负责处理源代码文本
+- 编译负责分析并生成汇编代码
+- 汇编负责生成目标文件
+- 链接负责解决模块之间的引用和地址问题
 
-理解这些阶段后，可以更有条理地分析头文件错误、语法错误、未定义引用和共享库加载失败等不同问题。
+## 十二、重难点--虚拟内存与Linux进程虚拟地址空间
+> B站
+
+### 一、基础概念区分
+- **虚拟内存（虚拟存储器）**：一套由硬件 + 操作系统共同实现的**内存管理体系**，不是真实的内存条
+  作用：给每个程序制造假象——程序仿佛独占整块内存
+
+- **虚拟地址空间**：虚拟内存机制给**每一个进程单独分配的一张内存布局图纸**，进程看到的地址都是虚拟地址，不是物理内存真实地址。
+
+> 类比：
+> 虚拟内存 = 图书馆借阅管理制度
+> 虚拟地址空间 = 分配给你个人的阅览清单
+
+### 二、虚拟内存的3个核心作用
+1. **高效利用物理内存（缓存机制）**
+把磁盘当成内存的后备。只有程序当前正在使用的数据放在物理内存；暂时不用的数据换到磁盘交换空间，需要的时候再调入内存。突破物理内存大小限制。
+
+2. **统一地址，简化程序开发**
+所有进程的地址布局格式一致，编译器、链接器不需要关心物理内存实际排布。
+
+3. **进程隔离、内存保护**
+每个进程拥有独立虚拟地址空间，进程之间不能随便访问对方内存。一个程序崩溃，不会连带其他程序一起崩溃。
+
+### 三、Linux 进程虚拟地址空间（从低地址 → 高地址）
+> 重点：这只是进程**自己以为**的内存布局，不等于真实物理内存排布
+
+1. **只读代码和常量段（.text）**
+存放编译好的程序指令、字符串常量。**只读不可修改**，来自可执行文件
+
+2. **读写数据段（.data / .bss）**
+存放全局变量、静态变量，程序启动加载时就分配，运行全程可读可写
+
+3. **堆（heap）**
+`malloc()` / `new` 动态申请的内存在这里；**向高地址方向增长**，需要程序员手动申请、手动释放
+
+4. **共享库映射区**
+系统动态库（比如 `libc`，`printf` 就在里面）映射到这里。多个进程可以共享同一份库，节约内存
+
+5. **用户栈（stack）**
+局部变量、函数参数、函数返回地址保存在栈；**向低地址方向增长**。函数调用自动入栈，函数结束自动回收；递归太深容易栈溢出
+
+6. **内核虚拟内存区（最高地址）**
+用户代码**不能直接访问**，属于操作系统内核。只能通过系统调用让内核协助完成操作，是安全边界
+
+## 四、一句话总结
+- 操作系统依靠虚拟内存这套机制，给每个进程分配独立的虚拟地址空间
+- 程序操作虚拟地址，硬件+OS自动翻译成物理地址
+- 同时支持内存换**页**、进程隔离保护
+
+## 五、简单记忆
+- 虚拟内存：软硬件配合的存储管理体系，实现内存虚拟化
+- 虚拟地址空间：单个进程独立的虚拟内存布局
+- 分段：只读代码段、数据段、堆（malloc，向上增长）、共享库、栈（局部变量，向下增长）、内核区（用户不可访问）
+- 三大功能：页面调度充分利用内存、统一地址简化编译、进程内存隔离保护
 
 
 
-# 11.2-CMake 基础学习笔记
+# 11.2-CMake 基础学习笔记(AI:person = 3:7)
 
 > 资料来源：[CMake 基础——菜鸟教程](https://www.runoob.com/cmake/cmake-basic.html)
 
@@ -541,17 +608,21 @@ project(MyProject VERSION 1.0.0 LANGUAGES CXX)
 
 ### 3. 设置 C++ 标准
 
-```cmake
+```
+cmake
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 ```
 
 `CMAKE_CXX_STANDARD_REQUIRED ON` 表示编译器必须支持指定标准，不能静默改用较低标准。
 
 ### 4. 添加可执行文件
 
-```cmake
+```
+cmake
 add_executable(MyApp main.cpp utils.cpp)
+
 ```
 
 该指令定义一个名为 `MyApp` 的可执行文件目标。
@@ -592,9 +663,11 @@ target_include_directories(
 
 ### 8. 设置安装规则
 
-```cmake
+```
+cmake
 install(TARGETS MyApp RUNTIME DESTINATION bin)
 install(TARGETS MyLib ARCHIVE DESTINATION lib)
+
 ```
 
 这些规则决定执行安装时，可执行文件和库分别被安装到什么位置。
@@ -647,9 +720,11 @@ install(TARGETS MyLib ARCHIVE DESTINATION lib)
 
 推荐使用外部构建，将生成文件放入独立的 `build` 目录：
 
-```bash
+```
+bash
 mkdir build
 cd build
+
 ```
 
 配置项目：
@@ -660,7 +735,8 @@ cmake ..
 
 构建项目：
 
-```bash
+```
+bash
 cmake --build .
 ```
 
@@ -681,19 +757,24 @@ cmake --install .
 
 定义普通变量：
 
-```cmake
+```
+cmake
 set(MY_APP_NAME "cmake-demo")
+
 ```
 
 引用变量：
 
-```cmake
+```
+cmake
 message(STATUS "项目名称：${MY_APP_NAME}")
+
 ```
 
 定义源文件列表：
 
-```cmake
+```
+cmake
 set(SOURCE_FILES
     main.cpp
     utils.cpp
@@ -701,27 +782,32 @@ set(SOURCE_FILES
 )
 
 add_executable(MyApp ${SOURCE_FILES})
+
 ```
 
 遍历列表：
 
-```cmake
+```
+cmake
 foreach(FILE ${SOURCE_FILES})
     message(STATUS "源文件：${FILE}")
 endforeach()
+
 ```
 
 ## 七、缓存变量
 
 缓存变量保存在 `CMakeCache.txt` 中，可以在多次 CMake 配置之间保留。
 
-```cmake
+```
+cmake
 set(
     ENABLE_LOGGING
     ON
     CACHE BOOL
     "是否启用日志功能"
 )
+
 ```
 
 常见缓存类型：
@@ -733,14 +819,18 @@ set(
 
 通过命令行修改缓存变量：
 
-```bash
+```
+bash
 cmake .. -DENABLE_LOGGING=OFF
+
 ```
 
 也可以设置安装路径：
 
-```bash
+```
+bash
 cmake .. -DCMAKE_INSTALL_PREFIX=/opt/my_app
+
 ```
 
 需要注意：如果缓存中已经存在某个变量，再次修改 `CMakeLists.txt` 中的默认值，不一定会覆盖原来的缓存值。配置异常时，应检查 `CMakeCache.txt`，必要时清理构建目录后重新配置。
@@ -749,20 +839,24 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/opt/my_app
 
 CMake 可以根据构建类型或功能开关选择不同配置：
 
-```cmake
+```
+cmake
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "当前为 Debug 构建")
 else()
     message(STATUS "当前不是 Debug 构建")
 endif()
+
 ```
 
 使用功能开关：
 
-```cmake
+```
+cmake
 if(ENABLE_LOGGING)
     message(STATUS "日志功能已启用")
 endif()
+
 ```
 
 ## 九、PUBLIC、PRIVATE 和 INTERFACE
@@ -777,39 +871,47 @@ endif()
 
 简单记忆：
 
-```text
+```
+text
 自己需要，别人不需要 → PRIVATE
 自己需要，别人也需要 → PUBLIC
 自己不需要，别人需要 → INTERFACE
+
 ```
 
 纯头文件库示例：
 
-```cmake
+```
+cmake
 add_library(HeaderOnlyLib INTERFACE)
 
 target_include_directories(
     HeaderOnlyLib
     INTERFACE ${PROJECT_SOURCE_DIR}/include
 )
+
 ```
 
 ## 十、目标级指令与全局指令
 
-资料推荐优先使用 `target_xxx` 系列指令。
+推荐优先使用 `target_xxx` 系列指令
 
 例如：
 
-```cmake
+```
+cmake
 target_include_directories(MyApp PRIVATE include)
 target_link_libraries(MyApp PRIVATE MyLib)
+
 ```
 
 相比大量使用全局的：
 
-```cmake
+```
+cmake
 include_directories(...)
 link_directories(...)
+
 ```
 
 目标级指令的优点是：
@@ -824,23 +926,29 @@ link_directories(...)
 
 使用 `find_package()` 查找外部库：
 
-```cmake
+```
+cmake
 find_package(Boost REQUIRED)
+
 ```
 
 `REQUIRED` 表示找不到依赖时停止配置。
 
 也可以指定最低版本：
 
-```cmake
+```
+cmake
 find_package(Boost 1.70 REQUIRED)
+
 ```
 
 使用导入目标：
 
-```cmake
+```
+cmake
 add_executable(MyApp main.cpp)
 target_link_libraries(MyApp PRIVATE Boost::Boost)
+
 ```
 
 现代 CMake 推荐使用导入目标，因为它可以自动传递头文件路径、库文件和其他使用要求，减少手动拼接路径造成的错误。
@@ -849,29 +957,31 @@ target_link_libraries(MyApp PRIVATE Boost::Boost)
 
 可以在目标构建完成后执行额外命令：
 
-```cmake
+```
+cmake
 add_custom_command(
     TARGET MyApp POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo "构建完成"
     COMMENT "输出构建完成信息"
 )
+
 ```
 
-`POST_BUILD` 表示在目标构建完成后执行。
+`POST_BUILD` 表示在目标构建完成后执行
 
 ## 十三、学习重点
 
-1. CMake 负责生成构建文件，不直接替代编译器。
-2. `CMakeLists.txt` 的核心是描述目标及其依赖。
-3. 推荐使用外部构建。
-4. 优先使用目标级指令。
-5. 理解 `PUBLIC`、`PRIVATE` 和 `INTERFACE` 的传播规则。
-6. 注意缓存变量不会简单地随默认值修改而自动更新。
-7. 使用外部库时，优先选择 `find_package()` 和导入目标。
+1. CMake 负责生成构建文件，不直接替代编译器
+2. `CMakeLists.txt` 的核心是描述目标及其依赖
+3. 推荐使用外部构建
+4. 优先使用目标级指令
+5. 理解 `PUBLIC`、`PRIVATE` 和 `INTERFACE` 的传播规则
+6. 注意缓存变量不会简单地随默认值修改而自动更新
+7. 使用外部库时，优先选择 `find_package()` 和导入目标
 
 
 
-# 11.3-《The Emperor Has No Clothes》文章核心讲解
+# 11.3-《The Emperor Has No Clothes》文章核心讲解(Have understood)
 
 > 资料来源：[The Emperor Has No Clothes: How to Code Claude Code in 200 Lines of Code](https://www.mihaileric.com/The-Emperor-Has-No-Clothes/)
 
@@ -1096,16 +1206,21 @@ tool_result({"path": "hello.py", "action": "created_file"})
 
 其本质是：
 
-```LLM 是负责大脑，本地代码是手脚，通过工具调用循环，让 AI 间接操作本地项目文件
 ```
 
-# 11.4-Catkin 官方教程学习笔记
+LLM 是负责大脑，本地代码是手脚，通过工具调用循环，让 AI 间接操作本地项目文件
+
+```
+
+
+
+# 11.4-Catkin 官方教程学习笔记(AI:persion = 6:4)
 
 > 资料来源：[ROS Wiki：Catkin Tutorials](https://wiki.ros.org/catkin/Tutorials)
 
 ## 一、Catkin 是什么
 
-Catkin 是 ROS 1 使用的构建系统，以 CMake 为基础，用于组织、构建和管理 ROS 功能包。
+Catkin 是 ROS 1 使用的构建系统，以 CMake 为基础，用于组织、构建和管理 ROS 功能包
 
 Catkin 主要涉及：
 
@@ -1484,7 +1599,6 @@ echo $ROS_PACKAGE_PATH
 ## 十六、总结
 
 Catkin 学习的关键是分清几个概念：
-
 - 工作空间负责组织多个功能包；
 - 功能包是 ROS 代码和资源的基本组织单位；
 - `package.xml` 负责描述功能包及依赖；
